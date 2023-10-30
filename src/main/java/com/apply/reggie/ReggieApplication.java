@@ -13,6 +13,6 @@ public class ReggieApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ReggieApplication.class,args);
-
+        System.out.println(1111);
     }
 }
