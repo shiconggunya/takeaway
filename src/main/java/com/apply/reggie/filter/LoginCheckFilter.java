@@ -19,7 +19,12 @@ import java.util.Objects;
 public class LoginCheckFilter implements Filter {
     public static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
     private String[] uris = {"/employee/login", "/employee/logout",
-            "/backend/**", "/front/**", "/common/**","/user/sendMsg","/user/login"};
+            "/backend/**", "/front/**", "/common/**", "/user/sendMsg", "/user/login",
+            "/doc.html",
+            "/webjars/**",
+            "/swagger-resources",
+            "/v2/api-docs"
+    };
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -37,13 +42,13 @@ public class LoginCheckFilter implements Filter {
             return;
         }
         //4-2、判断登录状态，如果已登录，则直接放行
-        if(request.getSession().getAttribute("user") != null){
-            log.info("用户已登录，用户id为：{}",request.getSession().getAttribute("user"));
+        if (request.getSession().getAttribute("user") != null) {
+            log.info("用户已登录，用户id为：{}", request.getSession().getAttribute("user"));
 
             Long userId = (Long) request.getSession().getAttribute("user");
             BaseContext.setCurrentId(userId);
 
-            filterChain.doFilter(request,response);
+            filterChain.doFilter(request, response);
             return;
         }
         response.getWriter().write(JSON.toJSONString(R.error("NOTLOGIN")));
